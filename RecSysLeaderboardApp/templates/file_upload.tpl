@@ -11,7 +11,7 @@
 <body>
 <div class="demo-wrapper">
 <div class="reminder-container">
-	<form id="input-form" action="/upload" method="post" enctype="multipart/form-data">
+	<form id="input-form" action={{upath}} method="post" enctype="multipart/form-data">
 	  <label>Select a file:</label><br/>
 	  <input type="file" name="upload" />
 	  <input type="submit" value="Upload" />

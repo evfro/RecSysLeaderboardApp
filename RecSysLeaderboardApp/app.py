@@ -24,33 +24,15 @@ def welcome():
 def server_static(filepath):
     return static_file(filepath, root='static')
 
-
 @route('/team/static/<filepath:path>')
 def server_static(filepath):
     return static_file(filepath, root='static')
-
-
-@route('/upload', method=['GET', 'POST'])
-def do_upload():
-    if request.method == 'GET':
-        return template('templates/file_upload')
-    elif request.method == 'POST':
-        upload = request.files.get('upload')
-        name, ext = os.path.splitext(upload.filename)
-        if ext not in ('.npz',):
-            return '<h2>File extension not allowed.</h2>'
-
-        upload.save('submissions', overwrite=True) # appends upload.filename automatically
-        redirect('/leaderboard')
-    else:
-        return '<h2>Invalid request</h2>'
 
 
 @route('/leaderboard', method=['GET'])
 def show_results():
     scores_data = get_scores()
     return template('templates/leaderboard', scores=scores_data)
-
 
 @route('/team/leaderboard', method=['GET'])
 def show_team_results():
@@ -59,20 +41,38 @@ def show_team_results():
     return template('templates/leaderboard_team', scores=scores, total=total)
 
 
-@route('/team/upload', method=['GET', 'POST'])
-def do_upload():
+def process_upload(request, prefix=None):
+    upath = '/upload'
+    usave = 'submissions'
+    redir = '/leaderboard'
+    if prefix:
+        upath = f'/{prefix}{upath}'
+        usave = f'{usave}/{prefix}'
+        redir = f'/{prefix}{redir}'
+        print(upath, usave, redir)
+
     if request.method == 'GET':
-        return template('templates/file_upload')
+        return template('templates/file_upload', upath=upath)
     elif request.method == 'POST':
         upload = request.files.get('upload')
         name, ext = os.path.splitext(upload.filename)
         if ext not in ('.npz',):
             return '<h2>File extension not allowed.</h2>'
 
-        upload.save('submissions/team', overwrite=True) # appends upload.filename automatically
-        redirect('/leaderboard')
+        upload.save(usave, overwrite=True) # appends upload.filename automatically
+        redirect(redir)
     else:
         return '<h2>Invalid request</h2>'
+
+
+@route('/upload', method=['GET', 'POST'])
+def do_upload():
+    return process_upload(request)
+
+@route('/<dest>/upload', method=['GET', 'POST'])
+def do_team_upload(dest):
+    return process_upload(request, prefix=dest)
+
 
 def wsgi_app():
     """Returns the application to make available through wfastcgi. This is used
