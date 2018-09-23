@@ -1,0 +1,6 @@
+bottle
+numpy
+scipy
+numba
+pandas
+https://github.com/Evfro/polara/archive/v0.6.1.tar.gz

@@ -4,7 +4,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a6d7f2d9-a8bd-418f-a2b1-48e6852286e0</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
+    <ProjectHome>
+    </ProjectHome>
     <ProjectTypeGuids>{e614c764-6d9e-4607-9337-b7073809a0bd};{1b580a1a-fdb3-4b32-83e1-6407eb2722e6};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <StartupFile>app.py</StartupFile>
     <SearchPath>
@@ -15,8 +16,9 @@
     <OutputPath>.</OutputPath>
     <PythonDebugWebServerCommandArguments>--debug $(CommandLineArguments)</PythonDebugWebServerCommandArguments>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
-    <Name>RecSysValley</Name>
+    <Name>RecSysLeaderboardApp</Name>
     <RootNamespace>RecSysValley</RootNamespace>
+    <InterpreterId>CondaEnv|CondaEnv|recsysvalley</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,10 +29,33 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="analyze.py" />
     <Compile Include="app.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="data\holdout.csv" />
+    <Content Include="data\holdout_team.csv" />
+    <Content Include="static\css\styles-4.css" />
+    <Content Include="static\css\styles.css" />
+    <Content Include="static\js\jquery-1.8.2.min.js" />
+    <Content Include="static\js\modernizr-1.5.min.js" />
+    <Content Include="static\js\scripts.js" />
+    <Content Include="templates\file_upload.tpl" />
+    <Content Include="templates\leaderboard.tpl" />
+    <Content Include="templates\leaderboard_team.tpl" />
     <Content Include="requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="CondaEnv|CondaEnv|recsysvalley" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="data\" />
+    <Folder Include="static\" />
+    <Folder Include="static\css\" />
+    <Folder Include="static\js\" />
+    <Folder Include="submissions\" />
+    <Folder Include="submissions\team\" />
+    <Folder Include="templates\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 
