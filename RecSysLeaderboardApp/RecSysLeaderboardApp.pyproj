@@ -44,6 +44,7 @@
     <Content Include="templates\leaderboard.tpl" />
     <Content Include="templates\leaderboard_team.tpl" />
     <Content Include="requirements.txt" />
+    <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="CondaEnv|CondaEnv|recsysvalley" />
