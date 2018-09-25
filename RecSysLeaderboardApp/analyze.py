@@ -8,7 +8,7 @@ from polara import RecommenderModel, RecommenderData
 
 userid = 'users'
 itemid = 'items'
-feedback = 'ratings'
+feedback = 'rating'
 
 
 def build_dummy_model(holdout, switch_positive):
