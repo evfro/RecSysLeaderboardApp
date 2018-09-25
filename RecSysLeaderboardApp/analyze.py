@@ -62,10 +62,10 @@ def get_scores(switch_positive=4):
         scores = -2
         if is_valid(submission):
             model._recommendations = submission
-            #try:
-            scores = model.evaluate('hits').true_positive
-            #except:
-            #    scores = -1
+            try:
+                scores = model.evaluate('hits').true_positive
+            except:
+                scores = -1
         res.append((name, scores))
 
     res.sort(key=operator.itemgetter(1), reverse=True)
