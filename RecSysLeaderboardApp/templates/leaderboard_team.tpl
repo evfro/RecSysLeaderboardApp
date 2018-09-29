@@ -17,10 +17,10 @@
 	</header>
 	<div class="scores-container">
 	<form class="keep-together" id="output-form-metrics">
-	<label>Metrics:</label><br/>
+	<label>Metrics@{{topk}}:</label><br/>
 		<ul class="recommendations">
-		%for name, recall, ndcg, ndcl in scores:
-		<li class="new-item">{{name}} &emsp; Recall: {{recall}} &emsp; nDCG: {{ndcg}} &emsp; nDCL: {{ndcl}}</li>
+		%for name, tpr, fpr in scores:
+		<li class="new-item">{{name}} &emsp; TPR: {{round(tpr[-1], 3) if tpr else -1}} &emsp; FPR: {{round(fpr[-1], 3) if fpr else -1}}</li>
 		%end
 		</ul>
 	</form>
@@ -29,7 +29,7 @@
 	<label>Total score:</label><br/>
 		<ul class="recommendations">
 		%for name, score in total:
-		<li class="new-item">{{name}} &emsp; &emsp; Combined score: {{score}}</li>
+		<li class="new-item">{{name}} &emsp; &emsp; Combined score: {{round(score, 3) if score else -1}}</li>
 		%end
 		</ul>
 	</form>

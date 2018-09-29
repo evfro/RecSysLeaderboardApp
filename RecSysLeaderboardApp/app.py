@@ -6,7 +6,7 @@ It contains the definition of routes and views for the application.
 import os
 import sys
 from bottle import default_app, redirect, request, route, template, static_file
-from analyze import get_scores, get_team_scores, combine_scores
+from analyze import get_scores, get_team_scores, combine_scores, min_topk, max_topk
 
 if '--debug' in sys.argv[1:] or 'SERVER_DEBUG' in os.environ:
     # Debug mode will enable more verbose output in the console window.
@@ -38,7 +38,7 @@ def show_results():
 def show_team_results():
     scores = get_team_scores()
     total = combine_scores(scores)
-    return template('templates/leaderboard_team', scores=scores, total=total)
+    return template('templates/leaderboard_team', scores=scores, total=total, topk=max_topk)
 
 
 def process_upload(request, prefix=None):

@@ -10,6 +10,10 @@ userid = 'userid'
 itemid = 'movieid'
 feedback = 'rating'
 
+min_topk = 1
+max_topk = 50
+
+
 
 def build_dummy_model(holdout, switch_positive):
     data = RecommenderData(None, userid, itemid, feedback)
@@ -74,30 +78,37 @@ def get_scores(switch_positive=4):
 
 def get_team_scores(switch_positive=4):
     res_scores = []
-    
-    holdout = get_holdout('data/holdout_team.csv')
+
+    holdout = get_holdout('data/team_holdout.gz')
     model = build_dummy_model(holdout, switch_positive)
-    
+
     for fp in glob.glob('submissions/team/*.npz'):
         name = os.path.splitext(os.path.split(fp)[1])[0]
         submission = read_submission(fp)
-        recall = ndcg = ndcl = -2
+        tpr = []
+        fpr = []
         if is_valid(submission):
             model._recommendations = submission
             try:
-                recall = model.evaluate('relevance').recall
-                ndcg, ndcl = model.evaluate('ranking')
+                for topk in range(min_topk, max_topk+1, 1):
+                    all_scores = model.evaluate('relevance', topk=topk)
+                    tpr.append(all_scores.recall)
+                    fpr.append(all_scores.fallout)
             except:
-                recall = ndcg = ndcl = -1
-        res_scores.append((name, np.round(recall, 3), np.round(ndcg, 3), np.round(ndcl, 3)))
+                pass
+        res_scores.append((name, tpr, fpr))
+    res_scores.sort(key=operator.itemgetter(2), reverse=True)
     return res_scores
 
 
-def combine_scores(scores, rw=0.4, gw=0.6, lw=0.2):
+def combine_scores(scores):
     total = []
-    for name, recall, ndcg, ndcl in scores:
-        score = rw*recall + gw*ndcg - lw*ndcl
+    for name, tpr, fpr in scores:
+        try:
+            #score = max([t-f for t, f in zip(tpr, fpr)])
+            score = sum([t-f for t, f in zip(tpr, fpr)]) / len(fpr)
+        except:
+            score = -1
         total.append((name, score))
     total.sort(key=operator.itemgetter(1), reverse=True)
     return total
-    
