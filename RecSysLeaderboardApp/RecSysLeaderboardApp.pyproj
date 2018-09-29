@@ -34,7 +34,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="data\holdout.csv" />
-    <Content Include="data\holdout_team.csv" />
     <Content Include="static\css\styles-4.css" />
     <Content Include="static\css\styles.css" />
     <Content Include="static\js\jquery-1.8.2.min.js" />
